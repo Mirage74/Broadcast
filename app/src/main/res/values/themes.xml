@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Broadcast" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Base.Theme.Broadcast" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+
+    <style name="Theme.Broadcast" parent="Base.Theme.Broadcast" />
+
 </resources>
+

@@ -55,9 +55,21 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.material3)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+
+
 
     implementation(libs.androidx.constraintlayout)
+
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+
+
 
 
 }
