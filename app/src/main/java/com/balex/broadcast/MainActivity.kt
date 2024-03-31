@@ -8,13 +8,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.appcompat.app.AppCompatActivity
+
 
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var progressBar: ProgressBar
+
+    private val localBroadcastManager by lazy {
+        LocalBroadcastManager.getInstance(this)
+    }
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -25,11 +31,8 @@ class MainActivity : AppCompatActivity() {
                 val count = intent.getIntExtra(MyReceiver.EXTRA_COUNT, 0)
                 Toast.makeText(context, "Clicked $count", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
-
-    //private val receiver = MyReceiver()
 
     private var count = 0
 
@@ -40,14 +43,14 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             Intent(MyReceiver.ACTION_CLICKED).apply {
                 putExtra(MyReceiver.EXTRA_COUNT, count++)
-                sendBroadcast(this)
+                localBroadcastManager.sendBroadcast(this)
             }
         }
         val intentFilter = IntentFilter().apply {
             addAction("loaded")
             addAction(MyReceiver.ACTION_CLICKED)
         }
-        registerReceiver(receiver, intentFilter, RECEIVER_EXPORTED)
+        localBroadcastManager.registerReceiver(receiver, intentFilter)
         Intent(this, MyService::class.java).apply {
             startService(this)
         }
@@ -55,8 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
+        localBroadcastManager.unregisterReceiver(receiver)
     }
 }
-
-
